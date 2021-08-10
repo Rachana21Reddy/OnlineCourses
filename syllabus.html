@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Add Syllabus</title>
+	<link rel="stylesheet" type="text/css" href="syllabus.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+    	var syllabus = [];
+		var status = 0;
+		var syllabusForm = `<div class="sectionSyllabus">
+								<input type="text" name="syllabusTitle" id="syllabusTitle" placeholder="Syllabus-Title"><br><br>
+								<input name="description" id="description" placeholder="Syllabus-Description"></input><br><br>
+								<input type="text" name="objective" id="objective" placeholder="Learning Objectives"><br><br>
+								<button id="save" class="btn btn-primary" title="Save"> Save</button>
+								<button id="cancel" class="btn btn-primary" title="Cancel">Cancel</button>
+								<br><br>
+							</div>`;
+		function addSyllabus()
+		{
+			$("#syllabusBtn").prop('disabled', true);
+			$("#syllabus").append(syllabusForm);
+		}
+
+		$(document).on('click', '#cancel', function() {
+		    $(this).parent().remove();
+		    $("#syllabusBtn").prop('disabled', false);
+	    });
+
+		$(document).on('click', '#save', function() {
+			var syllabusData = {};
+			if(status == 0) {
+				$('.sectionSyllabus input').each(function() {
+					var id = $(this).attr("id");
+					var value = $(this).val();
+				    if (value != '') {
+				        syllabusData[id] = value;
+				    }
+				})
+				syllabus.push(syllabusData);
+				console.log(syllabus);
+				displayCard();
+				$(this).parent().hide();
+			}
+			else {
+				displayCard();
+				$(this).parent().hide();
+			}
+
+		});
+
+		function displayCard()
+		{
+			$(".card").remove();
+			for(let iterator = 0; iterator < syllabus.length; iterator++)
+			{
+				let obj = syllabus[iterator];
+				var cardData = `<div class="card">
+	    					<div class="index rounded-circle">${iterator + 1}</div>
+	    					<div class="minimizedcard">
+	    						<label><b>${obj.syllabusTitle}</b></label><br>
+	    						<label>${obj.description}</label>
+	    						<a href="#" id="delete" onclick="deleteSyllabus(${iterator})"><span class='glyphicon glyphicon-trash'></span></a>
+	    						<a href="#" id="editSyllabus" onclick="editSyllabus(${iterator})"><span class='glyphicon glyphicon-edit'></span></a>
+	    					</div>
+	    				</div>`;
+			    $('#syllabus').append(cardData);	
+			}
+			$("#syllabusBtn").prop('disabled', false);
+		}
+
+		function deleteSyllabus(index)
+		{
+			var ok = confirm("Are you sure you want to delete?");
+			if(ok)
+			{
+				syllabus.splice(index, 1);
+				displayCard();
+			}
+		}
+
+		function editSyllabus(index)
+		{
+
+		}
+
+	</script>
+</head>
+<body id="body">
+	<input type="button" name="syllabusBtn" id="syllabusBtn" value="Add Syllabus" onclick="addSyllabus()" class="btn btn-primary"><br>
+	<div id="syllabus"></div>
+</body>
+</html>

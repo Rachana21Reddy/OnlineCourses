@@ -18,16 +18,15 @@
 		{
 			var syllabusForm = `<div class="sectionSyllabus">
 									<label id="syllabusNumber" class="p-3 bg-primary text-white">Syllabus ${counter}</label><br>
-									<input type="text" name="syllabusTitle" id="syllabusTitle" placeholder="Syllabus-Title"><br><br>
-									<input name="description" id="description" placeholder="Syllabus-Description"></input><br><br>
-									<input type="text" name="objective" id="objective" placeholder="Learning Objectives"><br><br>
+									<input type="text" name="syllabusTitle" id="syllabusTitle" placeholder="Syllabus-Title" ><br><br>
+									<input name="description" id="description" placeholder="Syllabus-Description" ></input><br><br>
+									<input type="text" name="objective" id="objective" placeholder="Learning Objectives" ><br><br>
 									<button id="save" class="btn btn-primary" title="Save" onclick="save()"> Save</button>
 									<button id="cancel" class="btn btn-primary" title="Cancel">Cancel</button>
 									<br><br>
 								</div>`;
 			counter++;
 			addSyllabus(syllabusForm)
-
 		}
 
 		function addSyllabus(syllabusForm)
@@ -62,16 +61,16 @@
 				renderCards();
 				$(this).parent().hide();
 			}
-			status = 0;
+			status = 0
 		}
 
-		function renderCards()
+		function renderCards(index)
 		{
 			$(".card").remove();
 			for(let iterator = 0; iterator < syllabus.length; iterator++)
 			{
 				let obj = syllabus[iterator];
-				var cardData = `<div class="card" id="card">
+				var cardData = `<div class="card" id="card${index}">
 		    					<div class="index rounded-circle">${iterator + 1}</div>
 		    					<div class="minimizedcard">
 		    						<label><b>${obj.syllabusTitle}</b></label><br>
@@ -112,14 +111,13 @@
 									<button id="cancel" class="btn btn-primary" title="Cancel">Cancel</button>
 									<br><br>
 								</div>`;
-			editSyllabus(syllabusForm)
+			editSyllabus(syllabusForm,index)
 		}
 
-		function editSyllabus(syllabusForm) {
-			$("#card").replaceWith(syllabusForm);
+		function editSyllabus(syllabusForm,index) {
+			$(`#card${index}`).replaceWith(syllabusForm);
 			status = 1;
 		}
-
 	</script>
 </head>
 <body id="body">

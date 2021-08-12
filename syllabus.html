@@ -12,15 +12,22 @@
 	<script type="text/javascript">
     	var syllabus = [];
 		var status = 0;
-		var syllabusForm = `<div class="sectionSyllabus">
-								<input type="text" name="syllabusTitle" id="syllabusTitle" placeholder="Syllabus-Title"><br><br>
-								<input name="description" id="description" placeholder="Syllabus-Description"></input><br><br>
-								<input type="text" name="objective" id="objective" placeholder="Learning Objectives"><br><br>
-								<button id="save" class="btn btn-primary" title="Save"> Save</button>
-								<button id="cancel" class="btn btn-primary" title="Cancel">Cancel</button>
-								<br><br>
-							</div>`;
-		function addSyllabus()
+		
+		function generateForm()
+		{
+			var syllabusForm = `<div class="sectionSyllabus">
+									<input type="text" name="syllabusTitle" id="syllabusTitle" placeholder="Syllabus-Title"><br><br>
+									<input name="description" id="description" placeholder="Syllabus-Description"></input><br><br>
+									<input type="text" name="objective" id="objective" placeholder="Learning Objectives"><br><br>
+									<button id="save" class="btn btn-primary" title="Save" onclick="save()"> Save</button>
+									<button id="cancel" class="btn btn-primary" title="Cancel">Cancel</button>
+									<br><br>
+								</div>`;
+			addSyllabus(syllabusForm)
+
+		}
+
+		function addSyllabus(syllabusForm)
 		{
 			$("#syllabusBtn").prop('disabled', true);
 			$("#syllabus").append(syllabusForm);
@@ -31,9 +38,9 @@
 		    $("#syllabusBtn").prop('disabled', false);
 	    });
 
-		$(document).on('click', '#save', function() {
+		function save(index) {
+			$(".sectionSyllabus").hide();
 			var syllabusData = {};
-			if(status == 0) {
 				$('.sectionSyllabus input').each(function() {
 					var id = $(this).attr("id");
 					var value = $(this).val();
@@ -41,35 +48,42 @@
 				        syllabusData[id] = value;
 				    }
 				})
+			if(status == 0) {
 				syllabus.push(syllabusData);
 				console.log(syllabus);
-				displayCard();
+				renderCards();
 				$(this).parent().hide();
 			}
 			else {
-				displayCard();
+				syllabus[index]=syllabusData;
+				renderCards();
 				$(this).parent().hide();
 			}
 
-		});
+		}
 
-		function displayCard()
+		function renderCards()
 		{
 			$(".card").remove();
 			for(let iterator = 0; iterator < syllabus.length; iterator++)
 			{
 				let obj = syllabus[iterator];
-				var cardData = `<div class="card">
-	    					<div class="index rounded-circle">${iterator + 1}</div>
-	    					<div class="minimizedcard">
-	    						<label><b>${obj.syllabusTitle}</b></label><br>
-	    						<label>${obj.description}</label>
-	    						<a href="#" id="delete" onclick="deleteSyllabus(${iterator})"><span class='glyphicon glyphicon-trash'></span></a>
-	    						<a href="#" id="editSyllabus" onclick="editSyllabus(${iterator})"><span class='glyphicon glyphicon-edit'></span></a>
-	    					</div>
-	    				</div>`;
-			    $('#syllabus').append(cardData);	
-			}
+				var cardData = `<div class="card" id="card">
+		    					<div class="index rounded-circle">${iterator + 1}</div>
+		    					<div class="minimizedcard">
+		    						<label><b>${obj.syllabusTitle}</b></label><br>
+		    						<label>${obj.description}</label>
+		    						<a href="#" id="delete" onclick="deleteSyllabus(${iterator})"><span class='glyphicon glyphicon-trash'></span></a>
+		    						<a href="#" id="editSyllabus" onclick="getExistingSyllabusForm(${iterator})"><span class='glyphicon glyphicon-edit'></span></a>
+		    					</div>
+		    				</div>`;
+		    	displayCard(cardData)
+		    }
+		}
+
+		function displayCard(cardData)
+		{
+		    $('#syllabus').append(cardData);	
 			$("#syllabusBtn").prop('disabled', false);
 		}
 
@@ -79,19 +93,33 @@
 			if(ok)
 			{
 				syllabus.splice(index, 1);
-				displayCard();
+				renderCards();
 			}
 		}
 
-		function editSyllabus(index)
+		function getExistingSyllabusForm(index)
 		{
+			let obj = syllabus[index];
+			var syllabusForm = `<div class="sectionSyllabus">
+									<input type="text" name="syllabusTitle" id="syllabusTitle" placeholder="Syllabus-Title" value="${obj.syllabusTitle}"><br><br>
+									<input name="description" id="description" placeholder="Syllabus-Description" value="${obj.description}"></input><br><br>
+									<input type="text" name="objective" id="objective" placeholder="Learning Objectives" value="${obj.objective}"><br><br>
+									<button id="save" class="btn btn-primary" title="Save" onclick="save(${index})"> Save</button>
+									<button id="cancel" class="btn btn-primary" title="Cancel">Cancel</button>
+									<br><br>
+								</div>`;
+			editSyllabus(syllabusForm)
+		}
 
+		function editSyllabus(syllabusForm) {
+			$("#card").replaceWith(syllabusForm);
+			status = 1;
 		}
 
 	</script>
 </head>
 <body id="body">
-	<input type="button" name="syllabusBtn" id="syllabusBtn" value="Add Syllabus" onclick="addSyllabus()" class="btn btn-primary"><br>
+	<input type="button" name="syllabusBtn" id="syllabusBtn" value="Add Syllabus" onclick="generateForm()" class="btn btn-primary"><br>
 	<div id="syllabus"></div>
 </body>
 </html>

@@ -11,11 +11,13 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
     	var syllabus = [];
+    	var counter = 1;
 		var status = 0;
 		
 		function generateForm()
 		{
 			var syllabusForm = `<div class="sectionSyllabus">
+									<label id="syllabusNumber" class="p-3 bg-primary text-white">Syllabus ${counter}</label><br>
 									<input type="text" name="syllabusTitle" id="syllabusTitle" placeholder="Syllabus-Title"><br><br>
 									<input name="description" id="description" placeholder="Syllabus-Description"></input><br><br>
 									<input type="text" name="objective" id="objective" placeholder="Learning Objectives"><br><br>
@@ -23,6 +25,7 @@
 									<button id="cancel" class="btn btn-primary" title="Cancel">Cancel</button>
 									<br><br>
 								</div>`;
+			counter++;
 			addSyllabus(syllabusForm)
 
 		}
@@ -101,6 +104,7 @@
 		{
 			let obj = syllabus[index];
 			var syllabusForm = `<div class="sectionSyllabus">
+									<label id="syllabusNumber" class="p-3 bg-primary text-white">Syllabus ${index + 1}</label><br>
 									<input type="text" name="syllabusTitle" id="syllabusTitle" placeholder="Syllabus-Title" value="${obj.syllabusTitle}"><br><br>
 									<input name="description" id="description" placeholder="Syllabus-Description" value="${obj.description}"></input><br><br>
 									<input type="text" name="objective" id="objective" placeholder="Learning Objectives" value="${obj.objective}"><br><br>

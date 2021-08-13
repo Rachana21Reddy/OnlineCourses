@@ -11,7 +11,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
 		var syllabus = [];
-		var emptySyllabusForm = {syllabusTitle:"",description:"",objective:"",editStatus:1};
+		var emptySyllabusForm = {syllabusTitle:"", description:"", objective:"", editStatus:1};
 
 		function addSyllabus() {
 			syllabus.push(emptySyllabusForm);
@@ -28,6 +28,7 @@
 									<button id="save" class="btn btn-primary" title="Save" onclick="save(${index})"> Save</button>
 									<button id="cancel" class="btn btn-primary" title="Cancel" onclick="cancel(${index})">Cancel</button>
 									<br><br>
+									<label id="error"></label><br>
 								</div>`;
 			return syllabusForm;
 		}
@@ -48,8 +49,8 @@
 		}
 
 		function save(index) {
-			if(($("#syllabusTitle"+index+"").val() == "" || $("#syllabusTitle"+index+"").val() == null) || ($("#description"+index+"").val() == "" || $("#description"+index+"").val() == null) || ($("#objective"+index+"").val() == "" || $("#objective"+index+"").val() == null)) {
-				alert("Enter all the values");
+			if(($("#syllabusTitle"+index+"").val() == "" ) || ($("#description"+index+"").val() == "") || ($("#objective"+index+"").val() == "") {
+				$("#error").html("Enter all the values");
 			}
 			else {
 				syllabusFormData = {syllabusTitle:$("#syllabusTitle"+index+"").val(),description:$("#description"+index+"").val(),objective:$("#objective"+index+"").val(), editStatus:0};

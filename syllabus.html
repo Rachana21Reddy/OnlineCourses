@@ -87,7 +87,12 @@
 		}
 
 		function cancel(index) {
-			syllabus.splice(index, 1);
+			if($("#syllabusTitle"+index+"").val() == "" || $("#description"+index+"").val() == "" || $("#objective"+index+"").val() == "") {
+				syllabus.splice(index, 1);
+			}
+			else {
+				syllabus[index]["editStatus"] = 0;
+			}
 			renderCard();
 		}
 	</script>

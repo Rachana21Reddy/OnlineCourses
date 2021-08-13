@@ -36,7 +36,7 @@
 		function renderCard() {
 			let index = 0;
 			$("#syllabus").html("");
-			for (const syllabusData of syllabus) {
+			for (var syllabusData of syllabus) {
 				if (syllabusData["editStatus"] == 0) {
 					var syllabusContent = generateCard(index, syllabusData);
 				}
@@ -49,9 +49,14 @@
 		}
 
 		function save(index) {
-			syllabusFormData = {syllabusTitle:$("#syllabusTitle"+index+"").val(),description:$("#description"+index+"").val(),objective:$("#objective"+index+"").val(), editStatus:0};
-			syllabus[index] = syllabusFormData;
-			renderCard();
+			if(($("#syllabusTitle"+index+"").val() == "" || $("#syllabusTitle"+index+"").val() == null) || ($("#description"+index+"").val() == "" || $("#description"+index+"").val() == null) || ($("#objective"+index+"").val() == "" || $("#objective"+index+"").val() == null)) {
+				alert("Enter all the values");
+			}
+			else {
+				syllabusFormData = {syllabusTitle:$("#syllabusTitle"+index+"").val(),description:$("#description"+index+"").val(),objective:$("#objective"+index+"").val(), editStatus:0};
+				syllabus[index] = syllabusFormData;
+				renderCard();
+			}
 		}
 
 		function generateCard(index, syllabusData)
@@ -86,7 +91,6 @@
 			syllabus.splice(index, 1);
 			renderCard();
 		}
-
 	</script>
 </head>
 <body id="body">

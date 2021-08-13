@@ -16,6 +16,7 @@
 		function addSyllabus() {
 			syllabus.push(emptySyllabusForm);
 			renderCard();
+			$("#syllabusBtn").prop('disabled', true);
 		}
 
 		function generateForm(index, syllabusData)
@@ -45,11 +46,12 @@
 				}
 				$("#syllabus").append(syllabusContent);
 				index++;
+				$("#syllabusBtn").prop('disabled', false);
 			}
 		}
 
 		function save(index) {
-			if(($("#syllabusTitle"+index+"").val() == "" ) || ($("#description"+index+"").val() == "") || ($("#objective"+index+"").val() == "") {
+			if(($("#syllabusTitle"+index+"").val() == "" ) || ($("#description"+index+"").val() == "") || ($("#objective"+index+"").val() == "")) {
 				$("#error").html("Enter all the values");
 			}
 			else {

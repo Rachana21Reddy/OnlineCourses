@@ -62,9 +62,7 @@ input[name=objective]
 	background: gray;
 	border: 5px blueviolet;
 	border-radius: 17px;
-
 }
-
 
 .index{
 	width: 40px;
@@ -82,12 +80,10 @@ a{
 	padding-left: 10px;
 }
 
-
 .minimizedcard{
 	float: right;
 	margin-left: 45px;
 	margin-top: -40px;
-
 }
 
 #syllabusNumber
@@ -97,7 +93,7 @@ a{
 	margin-left: 60px;
 }
 
-#error
+.error
 {
 	color: red;
 	margin-left: 60px;

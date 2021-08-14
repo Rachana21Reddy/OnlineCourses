@@ -24,12 +24,14 @@
 			var syllabusForm = `<div class="sectionSyllabus" id="form">
 									<label id="syllabusNumber" class="p-3 bg-primary text-white">Syllabus ${index + 1}</label><br>
 									<input type="text" name="syllabusTitle" id="syllabusTitle${index}" placeholder="syllabusTitle" value="${syllabusData["syllabusTitle"]}"><br><br>
+									<label id="titleError${index}" class="error"></label><br>
 									<input type="text" name="description" id="description${index}" placeholder="Syllabus Description" value="${syllabusData["description"]}"><br><br>
+									<label id="descriptionError${index}" class="error"></label><br>
 									<input type="text" name="objective" id="objective${index}" placeholder="Learning Objectives" value="${syllabusData["objective"]}"><br><br>
+									<label id="objectiveError${index}" class="error"></label><br>
 									<button id="save" class="btn btn-primary" title="Save" onclick="save(${index})"> Save</button>
 									<button id="cancel" class="btn btn-primary" title="Cancel" onclick="cancel(${index})">Cancel</button>
 									<br><br>
-									<label id="error"></label><br>
 								</div>`;
 			return syllabusForm;
 		}
@@ -51,8 +53,26 @@
 		}
 
 		function save(index) {
-			if(($("#syllabusTitle"+index+"").val() == "" ) || ($("#description"+index+"").val() == "") || ($("#objective"+index+"").val() == "")) {
-				$("#error").html("Enter all the values");
+			if($("#syllabusTitle"+index+"").val() == "" || $("#description"+index+"").val() == "" || $("#objective"+index+"").val() == "") {
+				if($("#syllabusTitle"+index+"").val() == "") {
+					$("#titleError"+index+"").html("Title is required.");
+				}
+				else {
+					$("#titleError"+index+"").html("");
+				}
+				if($("#description"+index+"").val() == "") {
+					$("#descriptionError"+index+"").html("Description is required.");	
+				}
+				else {
+					$("#descriptionError"+index+"").html("");
+				}
+				if($("#objective"+index+"").val() == "") {
+					$("#objectiveError"+index+"").html("Objectives is required.");	
+				}
+				else {
+					$("#objectiveError"+index+"").html("");
+				}
+
 			}
 			else {
 				syllabusFormData = {syllabusTitle:$("#syllabusTitle"+index+"").val(),description:$("#description"+index+"").val(),objective:$("#objective"+index+"").val(), editStatus:0};
@@ -90,10 +110,13 @@
 		}
 
 		function cancel(index) {
-			if($("#syllabusTitle"+index+"").val() == "" || $("#description"+index+"").val() == "" || $("#objective"+index+"").val() == "") {
+			let obj = syllabus[index];
+			if((obj.syllabusTitle == "") || (obj.description == "") || (obj.objective == ""))
+			{
 				syllabus.splice(index, 1);
 			}
-			else {
+			else
+			{
 				syllabus[index]["editStatus"] = 0;
 			}
 			renderCard();

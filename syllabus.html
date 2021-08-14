@@ -116,15 +116,16 @@
 
 		function cancel(index) {
 			let obj = syllabus[index];
-			if((obj.syllabusTitle == "") || (obj.description == "")  (obj.objective == ""))
+			if((obj.syllabusTitle == "") || (obj.description == "") || (obj.objective == ""))
 			{
 				syllabus.splice(index, 1);
 			}
 			else
 			{
-				syllabus[index]["editStatus"] = 0;
+				obj.editStatus = 0;
 			}
 			renderCard();
+			$("#syllabusBtn").prop('disabled', false);
 		}
 	</script>
 </head>
